@@ -26,12 +26,13 @@ const SignupPage = () => {
       username: '',
       email: '',
       password: ''
-    }
+    },
+    mode: 'onChange'
   });
   const onSubmit: SubmitHandler<z.infer<typeof formSchema>> = (
-    values: z.infer<typeof formSchema>
+    data: z.infer<typeof formSchema>
   ) => {
-    console.log(values);
+    console.log(data);
   };
 
   return (
