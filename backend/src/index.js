@@ -21,14 +21,25 @@ monggoose
   .then(() => console.log('connected to mongodb'))
   .catch((err) => console.log(err));
 
-app.get('/', (req, res) => {
-  res.send('안녕하세요@@@');
+app.get('/', (req, res, next) => {
+  // 비동기에서 일어나는 에러의 경우 next를 이용해야만 error handler(에러처리기)에 전달 됨.
+  setTimeout(() => {
+    next(new Error('it is an Error'));
+  }, 1000);
+  // res.send('안녕하세요@@@');
 });
 
 app.post('/', (req, res) => {
   console.log('[post]', req.body);
   res.json(req.body);
 });
+
+// error handler
+app.use((err, req, res, next) => {
+  res.status(err.status || 500);
+  res.send(err.message || 'Server Error');
+});
+
 app.listen(port, () => {
   console.log(`Backend server is running on port ${port}`);
 });
