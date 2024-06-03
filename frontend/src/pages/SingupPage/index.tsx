@@ -1,4 +1,4 @@
-import { useForm, SubmitHandler } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Button } from '@/components/ui/button';
@@ -12,6 +12,8 @@ import {
   FormMessage
 } from '@/components/ui/form';
 import { Link } from 'react-router-dom';
+import { useAuthStore } from '@/store';
+
 // Zod 스키마 정의
 const formSchema = z.object({
   name: z.string().min(3, 'Username must be at least 3 characters long'),
@@ -29,12 +31,19 @@ const SignupPage = () => {
     },
     mode: 'onChange'
   });
-  const onSubmit: SubmitHandler<z.infer<typeof formSchema>> = ({
-    email,
-    password,
-    name
-  }: z.infer<typeof formSchema>) => {
-    console.log('email: ', email, 'password: ', password, 'name: ', name);
+
+  const { signUp, loading, error } = useAuthStore();
+
+  if (error) return <p>{error}</p>;
+
+  const onSubmit = async (data: z.infer<typeof formSchema>) => {
+    // TODO: API Call
+    const body = {
+      ...data,
+      image: '../../../public/prettier.jpeg'
+    };
+    await signUp(body);
+    console.log('body: ', body);
   };
 
   return (
@@ -82,7 +91,7 @@ const SignupPage = () => {
                 </FormItem>
               )}
             />
-            <Button type="submit" className="w-full">
+            <Button type="submit" className="w-full" disabled={loading}>
               회원가입
             </Button>
           </form>
