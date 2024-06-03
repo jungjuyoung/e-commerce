@@ -14,7 +14,7 @@ import {
 import { Link } from 'react-router-dom';
 // Zod 스키마 정의
 const formSchema = z.object({
-  username: z.string().min(3, 'Username must be at least 3 characters long'),
+  name: z.string().min(3, 'Username must be at least 3 characters long'),
   email: z.string().email('Invalid email address'),
   password: z.string().min(6, 'Password must be at least 6 characters long')
 });
@@ -23,16 +23,18 @@ const SignupPage = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      username: '',
+      name: '',
       email: '',
       password: ''
     },
     mode: 'onChange'
   });
-  const onSubmit: SubmitHandler<z.infer<typeof formSchema>> = (
-    data: z.infer<typeof formSchema>
-  ) => {
-    console.log(data);
+  const onSubmit: SubmitHandler<z.infer<typeof formSchema>> = ({
+    email,
+    password,
+    name
+  }: z.infer<typeof formSchema>) => {
+    console.log('email: ', email, 'password: ', password, 'name: ', name);
   };
 
   return (
@@ -56,7 +58,7 @@ const SignupPage = () => {
             />
             <FormField
               control={form.control}
-              name="username"
+              name="name"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Name</FormLabel>
@@ -87,7 +89,6 @@ const SignupPage = () => {
           <p className="mt-4 text-center text-sm text-gray-700">
             <span>아이디가 있다면?</span>
             <Link to="/login" className="font-medium">
-              {' '}
               로그인
             </Link>
           </p>
