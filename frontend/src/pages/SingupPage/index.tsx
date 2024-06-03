@@ -46,6 +46,8 @@ const SignupPage = () => {
     console.log('body: ', body);
   };
 
+  console.log('form: ', form);
+
   return (
     <section className="flex flex-col justify-center mt-20 max-w-[400px] m-auto">
       <h1 className="text-3xl font-semibold text-center">회원가입</h1>
@@ -61,6 +63,7 @@ const SignupPage = () => {
                   <FormControl>
                     <Input placeholder="이메일" {...field} />
                   </FormControl>
+                  {/* <p>{form.formState.errors.email?.message}</p> */}
                   <FormMessage />
                 </FormItem>
               )}
@@ -74,6 +77,7 @@ const SignupPage = () => {
                   <FormControl>
                     <Input placeholder="이름" {...field} />
                   </FormControl>
+                  {/* <p>{form.formState.errors.name?.message}</p> */}
                   <FormMessage />
                 </FormItem>
               )}
@@ -87,6 +91,7 @@ const SignupPage = () => {
                   <FormControl>
                     <Input placeholder="비밀번호" {...field} />
                   </FormControl>
+                  {/* <p>{form.formState.errors.password?.message}</p> */}
                   <FormMessage />
                 </FormItem>
               )}
