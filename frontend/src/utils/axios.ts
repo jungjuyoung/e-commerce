@@ -1,9 +1,8 @@
 import axios from 'axios';
 
+// console.log('import.meta.env.VITE_BASE_URL: ', import.meta.env.VITE_BASE_URL);
 const axiosInstance = axios.create({
-  baseURL: import.meta.env.BASE_URL
-    ? 'https://your-backend-api.com'
-    : 'http://localhost:5000'
+  baseURL: import.meta.env.BASE_URL ? '' : 'http://localhost:5000'
 });
 
 export default axiosInstance;
