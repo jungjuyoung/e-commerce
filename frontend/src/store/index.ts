@@ -1,11 +1,39 @@
 import { create } from 'zustand';
+import axiosInstance from '@/utils/axios';
 
-type Store = {
-  count: number;
-  inc: () => void;
+export type SignUpData = {
+  name: string;
+  email: string;
+  password: string;
+  image: string;
 };
 
-export const useStore = create<Store>()((set) => ({
-  count: 1,
-  inc: () => set((state) => ({ count: state.count + 1 }))
+type AuthStore = {
+  user: SignUpData | null;
+  error: string | null;
+  loading: boolean;
+  signUp: (data: SignUpData) => Promise<void>;
+};
+
+export const useAuthStore = create<AuthStore>((set) => ({
+  user: null,
+  error: null,
+  loading: false,
+  signUp: async (data) => {
+    console.log('[store] useAuthStore singUp(data: ', data);
+    set({ loading: true, error: null });
+    try {
+      const response = await axiosInstance.post(`/users/signup`, {
+        body: JSON.stringify(data)
+      });
+      const result = await response.json();
+      if (response.ok) {
+        set({ user: result, loading: false });
+      } else {
+        set({ error: result.message, loading: false });
+      }
+    } catch (error) {
+      set({ error: error.message, loading: false });
+    }
+  }
 }));
