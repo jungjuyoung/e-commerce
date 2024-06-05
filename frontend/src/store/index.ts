@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import axiosInstance from '@/utils/axios';
+import { toast } from 'react-toastify';
 
 export type SignUpData = {
   name: string;
@@ -29,8 +30,10 @@ export const useAuthStore = create<AuthStore>((set) => ({
       const result = await response.json();
       if (response.ok) {
         set({ user: result, loading: false });
+        toast.info('회원가입 성공!');
       } else {
         set({ error: result.message, loading: false });
+        toast.info('회원가입 실패!');
       }
     } catch (error) {
       set({ error: error.message, loading: false });
