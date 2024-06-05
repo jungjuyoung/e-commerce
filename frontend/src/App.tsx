@@ -5,10 +5,18 @@ import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SingupPage';
 import Navbar from './layout/Navbar';
 import Footer from './layout/Footer';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Layout() {
   return (
     <div className="flex flex-col h-screen justify-center">
+      <ToastContainer
+        position="top-right"
+        theme="light"
+        pauseOnHover
+        autoClose={1500}
+      />
       <header className="">
         <Navbar />
       </header>
