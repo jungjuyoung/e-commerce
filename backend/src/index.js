@@ -24,7 +24,7 @@ monggoose
 app.get('/', (req, res, next) => {
   // 비동기에서 일어나는 에러의 경우 next를 이용해야만 error handler(에러처리기)에 전달 됨.
   setTimeout(() => {
-    next(new Error('it is an Error'));
+    next(new Error('it is an Error...'));
   }, 1000);
   // res.send('안녕하세요@@@');
 });
