@@ -31,7 +31,6 @@ const SignupPage = () => {
     },
     mode: 'onChange'
   });
-
   const { signUp, loading, error } = useAuthStore();
 
   if (error) return <p>{error}</p>;
@@ -43,10 +42,7 @@ const SignupPage = () => {
       image: '../../../public/prettier.jpeg'
     };
     await signUp(body);
-    console.log('body: ', body);
   };
-
-  console.log('form: ', form);
 
   return (
     <section className="flex flex-col justify-center mt-20 max-w-[400px] m-auto">

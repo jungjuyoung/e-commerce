@@ -24,19 +24,18 @@ export const useAuthStore = create<AuthStore>((set) => ({
     console.log('[store] useAuthStore singUp(data: ', data);
     set({ loading: true, error: null });
     try {
-      const response = await axiosInstance.post(`/users/signup`, {
-        body: JSON.stringify(data)
-      });
-      const result = await response.json();
-      if (response.ok) {
-        set({ user: result, loading: false });
+      const response = await axiosInstance.post(`/users/signup`, data);
+      console.log('[singUp] response: ', response);
+      if (response.status >= 200 && response.status < 300) {
+        set({ user: response.data, loading: false });
         toast.info('회원가입 성공!');
       } else {
-        set({ error: result.message, loading: false });
+        set({ error: response.data.message, loading: false });
         toast.info('회원가입 실패!');
       }
     } catch (error) {
-      set({ error: error.message, loading: false });
+      set({ error: error as string, loading: false });
     }
+    set({ loading: false });
   }
 }));
