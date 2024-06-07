@@ -85,7 +85,7 @@ const SignupPage = () => {
                 <FormItem>
                   <FormLabel>Password</FormLabel>
                   <FormControl>
-                    <Input placeholder="비밀번호" {...field} />
+                    <Input placeholder="비밀번호" {...field} type="password" />
                   </FormControl>
                   {/* <p>{form.formState.errors.password?.message}</p> */}
                   <FormMessage />
