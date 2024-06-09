@@ -11,8 +11,8 @@ import {
   FormLabel,
   FormMessage
 } from '@/components/ui/form';
-import { Link } from 'react-router-dom';
-import { useAuthStore } from '@/store';
+import { useNavigate, Link } from 'react-router-dom';
+import useAuthStore from '@/store';
 
 // Zod 스키마 정의
 const formSchema = z.object({
@@ -22,6 +22,8 @@ const formSchema = z.object({
 });
 
 const SignupPage = () => {
+  const navigator = useNavigate();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -31,9 +33,12 @@ const SignupPage = () => {
     },
     mode: 'onChange'
   });
-  const { signUp, loading, error } = useAuthStore();
 
-  if (error) return <p>{error}</p>;
+  const { user, signUp, loading } = useAuthStore();
+  console.log('[회원가입페이지] user: ', user);
+  if (user) {
+    navigator('/login');
+  }
 
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
     // TODO: API Call

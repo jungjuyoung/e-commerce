@@ -11,8 +11,8 @@ import {
   FormLabel,
   FormMessage
 } from '@/components/ui/form';
-import { Link } from 'react-router-dom';
-import { useAuthStore } from '@/store';
+import { Link, useNavigate } from 'react-router-dom';
+import useAuthStore from '@/store';
 
 // Zod 스키마 정의
 const formSchema = z.object({
@@ -21,6 +21,8 @@ const formSchema = z.object({
 });
 
 const LoginPage = () => {
+  const navigator = useNavigate();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -29,17 +31,21 @@ const LoginPage = () => {
     },
     mode: 'onChange'
   });
-  const { singIn, loading, error } = useAuthStore();
+  const { user, isAuth, singIn, loading } = useAuthStore();
+  console.log('[로그인페이지] isAuth: ', isAuth);
+  if (isAuth) {
+    navigator('/');
+  }
 
-  if (error) return <p className="text-red-500">{error}</p>;
+  // if (error) return <p className="text-red-500">{error}</p>;
 
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
     // TODO: API Call
     const body = {
       ...data
     };
-    await singIn(body);
-    console.log('[login] data: ', data);
+    const result = await singIn(body);
+    console.log('[login] result: ', result);
   };
 
   return (
@@ -55,7 +61,10 @@ const LoginPage = () => {
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input placeholder="이메일" {...field} />
+                    <Input
+                      placeholder={`${user?.email || '이메일'}`}
+                      {...field}
+                    />
                   </FormControl>
                   {/* <p>{form.formState.errors.email?.message}</p> */}
                   <FormMessage />
