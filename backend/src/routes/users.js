@@ -23,13 +23,13 @@ router.post('/singIn', async (req, res, next) => {
     // 존재하는 유저인지 확인
     const user = await User.findOne({ email: req.body.email });
     if (!user) {
-      return res.status(400).json({ message: '이메일가 없습니다' });
+      return res.status(400).json('이메일가 없습니다');
     }
 
     // 비밀번호가 올바른 것인지 확인
     const isMatchedPassword = await user.comparePassword(req.body.password);
     if (!isMatchedPassword) {
-      return res.status(400).json({ message: '비밀번호가 없습니다' });
+      return res.status(400).json('비밀번호가 없습니다');
     }
 
     const payload = {
